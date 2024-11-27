@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Halal Meat Traceability - Add Meat Storage</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.2.11/dist/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function logout() {
+      $.get('/logout', function() {
+        window.location.href = '/login';
+      }).fail(function() {
+        alert('Error logging out');
+      });
+    }
+  </script>  
+  <link rel="stylesheet" href="./css/addMeatStorage.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+  <div id="loader">Connect to MetaMask...</div>
+  <div id="content" style="display:none;">
+    <h2>Add Meat Storage</h2>
+    <form id="addMeatStorageForm" class="form-add">
+      <label for="addMeatId">Meat ID:</label>
+      <input type="text" id="addMeatId" required><br>
+      <label for="addTemperature">Temperature:</label>
+      <input type="number" id="addTemperature" required><br>
+      <label for="addHumidity">Humidity:</label>
+      <input type="number" id="addHumidity" required><br>
+      <label for="addIsContaminated">Is Contaminated:</label>
+      <input type="checkbox" id="addIsContaminated"><br>
+      <label for="addJakimCertificateId">JAKIM Certificate ID:</label>
+      <input type="number" id="addJakimCertificateId" required><br>
+      <button type="submit">Add Meat Storage</button>
+    </form>
+
+    <h2>Update Meat Storage</h2>
+    <form id="updateMeatStorageForm" class="form-update">
+      <label for="updateMeatId">Meat ID:</label>
+      <input type="text" id="updateMeatId" required><br>
+      <label for="updateAttribute">Attribute to Update:</label>
+      <select id="updateAttribute" required>
+        <option value="temperature">Temperature</option>
+        <option value="humidity">Humidity</option>
+        <option value="isContaminated">Contamination Status</option>
+        <option value="jakimCertificateId">JAKIM Certificate ID</option>
+      </select><br>
+      <label for="updateValue">New Value:</label>
+      <input type="text" id="updateValue" required><br>
+      <button type="submit">Update Meat Storage</button>
+    </form>
+
+    <h2>Get Meat Storage</h2>
+    <form id="getMeatStorageForm" class="form-get">
+      <label for="getMeatId">Meat ID:</label>
+      <input type="text" id="getMeatId" required><br>
+      <button type="submit">Get Meat Storage</button>
+    </form>
+    <div id="meatStorageResult"></div>
+
+    <h2>All Meat Storages</h2>
+    <section id="meatStorageSection" class="hidden">
+      <table id="meatStoragesResults">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Is Contaminated</th>
+            <th>JAKIM Certificate ID</th>
+            <th>Is Halal</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <div class="button-container">
+      <button id="toggleTableBtn">Show All Meat Storages</button>
+      <button id="exportBtn"><i class="fa fa-download"></i></i></button>
+      <button id="logoutBtn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <script>
+    function logout() {
+      $.get('/logout', function() {
+        // Clear the session storage
+        sessionStorage.clear();
+        // Redirect to login page
+        window.location.href = '/login';
+      }).done(function() {
+        // Prevent navigating back
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, null, window.location.href);
+          window.onpopstate = function() {
+            window.history.pushState(null, null, window.location.href);
+          };
+        }
+      });
+    }
+
+    function fetchAllMeatStorages() {
+      $.get('/getAllMeatStorages', function(data) {
+        const tableBody = $('#meatStoragesResults tbody');
+        tableBody.empty();
+        data.forEach(storage => {
+          const row = `
+            <tr>
+              <td>${storage.meat_id}</td>
+              <td>${storage.temperature}</td>
+              <td>${storage.humidity}</td>
+              <td>${storage.is_contaminated ? 'Yes' : 'No'}</td>
+              <td>${storage.jakim_certificate_id}</td>
+              <td>${storage.is_halal ? 'Yes' : 'No'}</td>
+            </tr>
+          `;
+          tableBody.append(row);
+        });
+      });
+    }
+
+    $(document).ready(function() {
+      $('#toggleTableBtn').click(function() {
+        $('#meatStorageSection').toggleClass('hidden');
+        fetchAllMeatStorages();
+      });
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      exportTableToExcel('meatStoragesResults', 'meat_storage_data');
+    });
+    
+    function exportTableToExcel(tableID, filename = ''){
+        var downloadLink;
+        var dataType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+        
+        // Specify file name
+        filename = filename?filename+'.xls':'excel_data.xls';
+        
+        // Create download link element
+        downloadLink = document.createElement("a");
+        
+        document.body.appendChild(downloadLink);
+        
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+        
+            // Setting the file name
+            downloadLink.download = filename;
+            
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+    
+  </script>
+</body> 

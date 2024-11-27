@@ -1,0 +1,208 @@
+/* addMeatStorage.css */
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ececee;
+    background-color: #1f2029;
+    overflow: hidden;
+    overflow-y: auto;
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat-back.svg');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 4%;
+    height: 100vh;
+    width: 100%;
+}
+
+#content {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    color: #ffeba7;
+}
+
+form {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #3a3e4b; /* Set the background color to match .signin */
+    box-shadow: 0 15px 35px rgba(0,0,0,9);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+form button {
+
+  padding: 10px;
+  background: #ffeba7;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background: #eed173; /* Change this to your desired hover color */
+  color: #000; /* Optional: change the text color on hover */
+}
+
+form button:active {
+  opacity: 0.6;
+}
+
+
+.table-container {
+  margin-top: 20px;
+}
+
+/* AddMeatStorage.css */
+
+/* Existing styles */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2; /* Light background for header row */
+}
+
+/* New styles for darker top row and leftmost column */
+th:first-child {
+  background-color: #0e2431; /* Darker color for the leftmost column */
+  color: #fff; /* Text color for the leftmost column */
+}
+
+tr:first-child th {
+  background-color: #0e2431; /* Darker color for the top row */
+  color: #fff; /* Text color for the top row */
+}
+
+/* Style for section containing the table */
+#meatStorageSection {
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #3a3e4b; /* Match the background color of forms */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 9);
+}
+
+#logoutBtn {
+  position: fixed;
+  top: 10px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  padding: 10px 15px;
+  background: #ffeba7;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  margin-top: 10px;
+  z-index: 1000; /* Ensure it stays on top of other elements */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 9);
+}
+
+#logoutBtn:hover {
+  background: #eed173; /* Change this to your desired hover color */
+  color: #000; /* Optional: change the text color on hover */
+}
+
+#logoutBtn:active {
+  opacity: 0.6;
+}
+
+#toggleTableBtn {
+  width: 40%;
+  padding: 10px;
+  background: #ffeba7;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#toggleTableBtn:hover {
+  background: #eed173; /* Change this to your desired hover color */
+  color: #000; /* Optional: change the text color on hover */
+}
+
+
+
+#exportBtn {
+  margin-left: auto;
+  padding: 10px;
+  background: #ffeba7;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#exportBtn:hover {
+  background: #eed173; /* Change this to your desired hover color */
+  color: #000; /* Optional: change the text color on hover */
+}
+
+.button-container button {
+  margin-right: 10px;
+}
+
